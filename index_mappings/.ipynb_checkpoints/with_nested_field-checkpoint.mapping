@@ -1,0 +1,24 @@
+{
+    "mappings": {
+        "properties": {
+            "details": {
+                "type": "nested",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "a": {
+                                "type": "long"
+                            },
+                            "b": {
+                                "type": "float"
+                            }
+                        }
+                    },
+                    "data2": {
+                        "type": "text"
+                    }
+                }
+            }
+        }
+    }
+}

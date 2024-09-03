@@ -1,0 +1,103 @@
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "nori_shingle3" : {
+                    "tokenizer" : "my_nori_tokenizer",
+                    "filter" : ["my_shingle3", "my_stoptags"]
+                },
+                "nori_shingle3_unigram" : {
+                    "tokenizer" : "my_nori_tokenizer",
+                    "filter" : ["my_shingle3_unigram", "my_stoptags"]
+                },
+                "letter_stop": {
+                    "tokenizer": "letter",
+                    "filter": ["lowercase", "stop"]
+                },
+                "stemmed": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "porter_stem", "stop"]
+                },
+                "synonym": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "solr_synonym", "stop"]
+                },
+                "synonym_stem": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["lowercase", "porter_stem", "solr_synonym", "stop"]
+                }
+            },
+            "tokenizer": {
+                "my_nori_tokenizer": {
+                    "type": "nori_tokenizer",
+                    "decompound_mode": "mixed"
+                }
+            },
+            "filter": {
+                "solr_synonym": {
+                    "type": "synonym",
+                    "synonyms_path": "/usr/share/elasticsearch/data/solr_synonyms_1.txt"
+                },
+                "my_shingle3" : {
+                    "type" : "shingle",
+                    "token_separator" : "",
+                    "max_shingle_size" : 3
+                },
+                "my_shingle3_unigram" : {
+                    "type" : "shingle",
+                    "token_separator" : "",
+                    "max_shingle_size" : 3,
+                    "output_unigrams": false
+                },
+                "my_stoptags" : {
+                    "type" : "nori_part_of_speech",
+                    "stoptags" : [
+                        "E", "J"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings" : {
+        "properties": {
+            "sentence" : {
+                "type": "text",
+                "fields": {
+                    "synonym_stem": {
+                        "type": "text",
+                        "analyzer": "synonym_stem",
+                        "search_analyzer": "synonym_stem"
+                    },
+                    "synonym": {
+                        "type": "text",
+                        "analyzer": "synonym",
+                        "search_analyzer": "synonym"
+                    },
+                    "stem": {
+                        "type": "text",
+                        "analyzer": "stemmed",
+                        "search_analyzer": "stemmed"
+                    },
+                    "letter": {
+                        "type": "text",
+                        "analyzer": "letter_stop",
+                        "search_analyzer": "letter_stop"
+                    },
+                    "nori_shingle3" : {
+                        "type": "text",
+                        "analyzer": "nori_shingle3",
+                        "search_analyzer": "nori_shingle3"
+                    },
+                    "nori_shingle3_unigram" : {
+                        "type": "text",
+                        "analyzer": "nori_shingle3_unigram",
+                        "search_analyzer": "nori_shingle3_unigram"
+                    }
+                }
+            }
+        }
+    }
+}

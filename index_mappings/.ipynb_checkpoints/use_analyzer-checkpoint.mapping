@@ -1,0 +1,45 @@
+{
+    "settings" : {
+        "analysis": {
+            "analyzer": {
+                "letter_with_index" : {
+                    "tokenizer" : "letter",
+                    "filter" : ["lowercase", "porter_stem"]
+                },
+                "letter_with_search" : {
+                    "tokenizer" : "letter",
+                    "filter" : ["lowercase", "stop", "porter_stem"]
+                }
+            }
+        }
+    },
+    "mappings" : {
+        "_source" : {
+            "excludes" : [
+                "emb"
+            ]
+        },
+        "properties": {
+            "sentence": {
+                "type": "text",
+                "fields" : {
+                    "letter" : {
+                        "type" : "text",
+                        "analyzer" : "letter_with_index",
+                        "search_analyzer" : "letter_with_search"
+                    }
+                }
+            },
+            "emb": {
+                "type": "dense_vector",
+                "dims" : 1024,
+                "index" : true,
+                "similarity" : "cosine",
+                "element_type": "float",
+                "index_options": {
+                    "type": "int8_hnsw"
+                }
+            }
+        }
+    }
+}

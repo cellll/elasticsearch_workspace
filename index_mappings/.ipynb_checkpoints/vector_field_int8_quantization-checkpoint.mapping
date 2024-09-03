@@ -1,0 +1,24 @@
+{
+    "mappings" : {
+        "_source" : {
+            "excludes" : [
+                "emb"
+            ]
+        },
+        "properties": {
+            "data" : {
+                "type" : "text"
+            },
+            "emb": {
+                "type": "dense_vector",
+                "dims" : 1024,
+                "index" : true,
+                "similarity" : "cosine",
+                "element_type": "float",
+                "index_options": {
+                    "type": "int8_hnsw"
+                }
+            }
+        }
+    }
+}
